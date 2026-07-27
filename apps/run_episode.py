@@ -47,6 +47,18 @@ def parse_arguments() -> argparse.Namespace:
         default=Path("logs/latest_episode.json"),
         help="Episode report path.",
     )
+    parser.add_argument(
+        "--failure-mode",
+        choices=["none", "placement_offset"],
+        default="none",
+        help="Inject a controlled simulation failure.",
+    )
+    parser.add_argument(
+        "--placement-offset-m",
+        type=float,
+        default=0.15,
+        help="X-axis offset used by the placement_offset failure mode.",
+    )
 
     args, _ = parser.parse_known_args()
     return args
@@ -161,6 +173,13 @@ def main() -> int:
         dtype=float,
     )
 
+    commanded_placement_position = target_position.copy()
+
+    if args.failure_mode == "placement_offset":
+        commanded_placement_position[0] += float(
+            args.placement_offset_m
+        )
+
     world = World(
         stage_units_in_meters=1.0,
     )
@@ -253,7 +272,12 @@ def main() -> int:
 
     print(f"Command: {args.command}")
     print(f"Task: {command_task}")
-    print(f"Target position: {target_position.tolist()}")
+    print(f"True target position: {target_position.tolist()}")
+    print(
+        "Controller placement position: "
+        f"{commanded_placement_position.tolist()}"
+    )
+    print(f"Failure mode: {args.failure_mode}")
 
     while (
         simulation_app.is_running()
@@ -271,7 +295,7 @@ def main() -> int:
                     cube.get_local_pose()[0],
                     dtype=float,
                 ),
-                placing_position=target_position,
+                placing_position=commanded_placement_position,
                 current_joint_positions=franka.get_joint_positions(),
                 end_effector_offset=np.array(
                     [0.0, 0.005, 0.0],
@@ -356,12 +380,24 @@ def main() -> int:
             ),
             "attempts": 1,
         },
+        "failure_injection": {
+            "mode": args.failure_mode,
+            "active": bool(args.failure_mode != "none"),
+            "placement_offset_m": (
+                float(args.placement_offset_m)
+                if args.failure_mode == "placement_offset"
+                else 0.0
+            ),
+        },
         "initial_state": {
             "cube_position_m": (
                 initial_cube_position.tolist()
             ),
-            "target_position_m": (
+            "true_target_position_m": (
                 target_position.tolist()
+            ),
+            "controller_placement_position_m": (
+                commanded_placement_position.tolist()
             ),
         },
         "final_state": {
