@@ -17,8 +17,6 @@ A persistent natural-language robot manipulation system built with NVIDIA Isaac 
 - Final placement-error verification
 
 ## Example Commands
-
-```text
 Pick and hold the white cube.
 Place the white cube on the red cube.
 Pick the cube under the blue cube.
@@ -49,9 +47,6 @@ Project Status
 
 This is a research prototype. Current work focuses on execution reliability, visual task-quality validation, failure diagnosis, and automatic recovery.
 
-Demo
-
-Add the LinkedIn or YouTube demo-video link here.
 
 Author
 
