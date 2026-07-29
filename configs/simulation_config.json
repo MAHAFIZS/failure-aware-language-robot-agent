@@ -1,0 +1,30 @@
+{
+  "schema_version": "isaac_sim_validation_config_v0.1",
+  "simulator": "NVIDIA Isaac Sim 5.1",
+  "robot": {
+    "name": "Franka Panda",
+    "asset_source": "NVIDIA Isaac Sim asset library",
+    "gripper": "AlternateFinger"
+  },
+  "physics": {
+    "gravity_m_s2": -9.81,
+    "stage_units_m": 1.0,
+    "cube_size_m": 0.0515,
+    "cube_mass_kg": null,
+    "static_friction": null,
+    "dynamic_friction": null,
+    "restitution": null
+  },
+  "validation": {
+    "placement_success_threshold_m": 0.1,
+    "check_object_count": true,
+    "check_final_position": true,
+    "check_task_completion": true
+  },
+  "notes": {
+    "cube_mass_kg": "Isaac Sim default; not explicitly overridden",
+    "static_friction": "Isaac Sim default; not explicitly overridden",
+    "dynamic_friction": "Isaac Sim default; not explicitly overridden",
+    "restitution": "Isaac Sim default; not explicitly overridden"
+  }
+}

@@ -1,8 +1,40 @@
+# Python
 __pycache__/
-*.pyc
-logs/*
-!logs/.gitkeep
-outputs/
-runs/
-checkpoints/
+*.py[cod]
+*.so
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Isaac Sim and Omniverse
 .cache/
+logs/
+crash*/
+*.log
+*.dmp
+
+# Runtime files
+data/agent_command.json
+data/agent_status.json
+results/*.json
+results/*.txt
+results/*.mp4
+
+# Generated files
+outputs/
+screenshots/
+recordings/
+
+# Editors
+.vscode/
+.idea/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.key
+*.pem
